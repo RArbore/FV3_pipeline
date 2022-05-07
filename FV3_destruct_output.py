@@ -3,7 +3,7 @@ from netCDF4 import Dataset
 import numpy as np
 import json
 
-argparser = ArgumentParser(description="Destruct FV3 ADM MODTRAN output into netCDF file.")
+argparser = ArgumentParser(description="Destruct FV3 ADM MODTRAN output into a single netCDF file.")
 argparser.add_argument("input", help="Path to directory containing MODTRAN's output.")
 argparser.add_argument("output", help="Output file path.")
 argparser.add_argument("cases", help="Number of cases.")
