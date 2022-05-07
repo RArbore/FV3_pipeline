@@ -16,7 +16,7 @@ The following files are created:
 ```
 - <input file>.json               # conversion between input netCDF and JSON file formats
 - <input file>_modtran_input.json # restructure input JSON and add info for MODTRAN
-- $SCRATCH/output/*               # the raw output from MODTRAN; stored in your $SCRATCH directory as this output is quite large, and will likely exceed your quota for your home directory
+- $SCRATCH/output/*               # the raw output from MODTRAN; stored in your $SCRATCH directory as this output is quite large, and will likely exceed the quota for your home directory
 - <input file>_modtran_output.nc  # the final output netCDF; relevant fields are extracted from the raw MODTRAN output and placed in this netCDF
 ```
 
@@ -55,8 +55,8 @@ optional arguments:
 
 ### mpi_modtran.cpp & Makefile
 This tool is what actually calls MODTRAN on input cases. It uses MPI to run multiple cases in parallel.
-Due to licensing issues, *you should only run this tool on a single node*. On NERSC's cori, it is best to run MODTRAN on the frontend.
-To run this tool on the cori frontend, run the following:
+Due to licensing issues, *you should only run this tool on a single node*. On NERSC's Cori, it is best to run MODTRAN on the frontend.
+To run this tool on the Cori frontend, run the following:
 ```
 make
 mpirun -np <procs> mpi_modtran.x input output_dir data_dir

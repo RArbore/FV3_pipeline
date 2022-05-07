@@ -72,7 +72,7 @@
 - upward_diffuse_nir(num_cases, num_szas, num_wavelengths, fluxes_per_index): Spectrally integrated over NIR wavelength range upward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
 - downward_diffuse_nir(num_cases, num_szas, fluxes_per_index): Spectrally integrated over NIR wavelength range downward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
 - direct_solar_nir(num_cases, num_szas, fluxes_per_index): Spectrally integrated over NIR wavelength range direct solar flux (watts / cm^2, first entry corresponds to the lowest altitude level)
-- vert_path & los_paths: Group of variables for total column absorber amounts for vertical path from ground to space and line-of-sight paths
+- vert_path & los_paths: Groups of variables for total column absorber amounts for vertical path from ground to space and line-of-sight paths
   - HNO3(num_cases, num_szas, num_los_paths\*): HNO3 amount (ATM CM)
   - O3 UV(num_cases, num_szas, num_los_paths\*): O3 UV amount (ATM CM)
   - CNTMSLF1(num_cases, num_szas, num_los_paths\*): CNTMSLF1 amount (MOL CM-2)
@@ -130,4 +130,5 @@
   - PATH_ZENITH(num_cases, num_szas, num_los_paths\*, num_path_geometries): Path zenith angle (DEG)
   - RELATIVE_AZIMUTH(num_cases, num_szas, num_los_paths\*, num_path_geometries): Relative azimuth angle (DEG)
   - SCATTER_ANGLE(num_cases, num_szas, num_los_paths\*, num_path_geometries): Scatter angle (DEG)
+
   \* num_los_paths is only present in the shape for variables in the los_paths group - it is not present for variables in the vert_path group
