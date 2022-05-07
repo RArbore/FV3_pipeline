@@ -1,0 +1,132 @@
+# Input netCDF
+## Dimensions
+- plev: Number of pressure levels
+- time: Number of times
+- sample: Number of samples
+- SZA: Number of SZAs
+- VZA: Number of VZAs
+- RAA: Number of RAAs
+
+## Variables
+- lat: Latitude (degrees north)
+- lon: Longitude (degrees east)
+- plev: Pressure Level (millibar, lowest pressure level is first, last entry is surface)
+- time: Hours since August 1st, 2016 (UTC)
+- q_plev: Specific humidity (kg water vapor / kg air, per pressure level)
+- t_plev: Temperature (kelvin, per pressure level)
+- qi_plev: In-cloud ice water concentration (kg ice / kg air, per pressure level)
+- ql_plev: In-cloud liquid water concentration (kg liquid / kg air, per pressure level)
+- ts: Surface skin temperature (kelvin)
+- ps: Surface pressure (pascals)
+- cldc: Total column cloud cover (%)
+- fsus: Surface upwelling shortwave broadband radiative flux (watt / meter ^ 2)
+- fsds: Surface downwelling shortwave broadband radiative flux (watt / meter ^ 2)
+- fsut: Top of atmosphere upwelling shortwave broadband radiative flux (watt / meter ^ 2)
+- fsdt: Top of atmosphere downwelling shortwave broadband radiative flux (watt / meter ^ 2)
+- SZA: Solar Zenith Angle (degrees, 90 is horizon)
+- VZA: Viewing Zenith Angle (degrees, 90 is horizon)
+- RAA: Relative Azimuth Angle (degrees)
+
+# Output netCDF
+## Dimensions
+- num_cases: Number of unique profiles passed in
+- num_szas: Number of solar zenith angles to run MODTRAN over
+  - NOTE: there is one MODTRAN case per num_cases and per num_szas; almost every variable's first two dimensions will be num_cases and num_szas
+- profiles_len: Length of profiles passed into MODTRAN
+- num_wavenumbers: Number of wavenumbers in MODTRAN output
+- num_input_geometries: Number of input geometries used (combinations of obszen and azinp)
+- num_path_geometries: Number of geometries in output column absorber amounts
+- num_toa_radiances: Number of toa_radiances per wavelength
+- num_wavelengths: Number of wavelengths varied over in toa_radiances
+- fluxes_per_index: Number of fluxes per wavelength (number of altitudes considered)
+  - NOTE: It is expected behavior that num_input_geometries = num_toa_radiances and num_path_geometries = fluxes_per_index
+- los_paths/num_los_paths: Number of line-of-sight paths
+## Variables
+- prof_alt: Altitude above surface (km, derived from hypsometric equation)
+- prof_pressure: Pressure (millibar, highest pressure is first, lowest pressure is last, must monotically decrease)
+- prof_temperature: Temperature (kelvin)
+- prof_h2o: H2O mixing ratio (ppmv)
+- prof_co2: CO2 mixing ratio (ppmv)
+- prof_o3: O3 mixing ratio (ppmv)
+- prof_n2o: N2O mixing ratio (ppmv)
+- prof_co: CO mixing ratio (ppmv)
+- prof_ch4: CH4 mixing ratio (ppmv)
+- toa_rad: Top of atmosphere band model radiance (watt / cm^2 / sr, per wavenumber)\*
+- ref_sol: Channel in-band irradiance, computed by band model (watt / cm^2, per wavenumber)\*
+- sol_at_obs: Channel in-band top of atmosphere solar irradiance, transmitted to observer altitude (watt / cm^2, per wavenumber)\*
+- depth: Optical depth (unitless, per wavenumber)
+- obszen: Input observer zenith angle (degrees, 90 is horizon)
+- azinp: Input azimuth angle (degrees)
+- day: Day of year (julian day)
+- temp: Area-averaged ground temperature (kelvin)
+- toa_radiances_wavelengths: Wavelengths corresponds to toa_radiances (nm)
+- toa_radiances: Output top of atmosphere spectral radiances, convolved with 2nm full-width half-maximum triangular slit function (uwatt / cm^2 / sr / nm)
+- upward_diffuse: Upward diffuse flux (watts / cm^2 / nm, first entry corresponds to the lowest wavelength and lowest altitude level)
+- downward_diffuse: Downward diffuse flux (watts / cm^2 / nm, first entry corresponds to the lowest wavelength and lowest altitude level)
+- direct_solar: Direct solar flux (watts / cm^2 / nm, first entry corresponds to the lowest wavelength and lowest altitude level)
+- toa_radiances_vis: Spectrally integrated over VIS wavelength range output top of atmosphere spectral radiances, convolved with 2nm full-width half-maximum triangular slit function (uwatt / cm^2 / sr)
+- upward_diffuse_vis: Spectrally integrated over VIS wavelength range upward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- downward_diffuse_vis: Spectrally integrated over VIS wavelength range downward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- direct_solar_vis: Spectrally integrated over VIS wavelength range direct solar flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- toa_radiances_nir: Spectrally integrated over NIR wavelength range output top of atmosphere spectral radiances, convolved with 2nm full-width half-maximum triangular slit function (uwatt / cm^2 / sr)
+- upward_diffuse_nir: Spectrally integrated over NIR wavelength range upward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- downward_diffuse_nir: Spectrally integrated over NIR wavelength range downward diffuse flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- direct_solar_nir: Spectrally integrated over NIR wavelength range direct solar flux (watts / cm^2, first entry corresponds to the lowest altitude level)
+- vert_path & los_paths: Group of variables for total column absorber amounts for vertical path from ground to space and line-of-sight paths
+  - HNO3: HNO3 amount (ATM CM)
+  - O3 UV: O3 UV amount (ATM CM)
+  - CNTMSLF1: CNTMSLF1 amount (MOL CM-2)
+  - CNTMSLF2: CNTMSLF2 amount (MOL CM-2)
+  - CNTMFRN: CNTMFRN amount (MOL CM-2)
+  - N2 CONT: N2 CONT amount (ATM^2 KM)
+  - MOL SCAT 550NM: MOL SCAT 550NM amount (550 NM EXTINCTION)
+  - TOTAL AER 550NM: TOTAL AER 550NM amount (550 NM EXTINCTION)
+  - AER 1 550NM: AER 1 550NM amount (550 NM EXTINCTION)
+  - AER 2 550NM: AER 2 550NM amount (550 NM EXTINCTION)
+  - AER 3 550NM: AER 3 550NM amount (550 NM EXTINCTION)
+  - AER 4 550NM: AER 4 550NM amount (550 NM EXTINCTION)
+  - CIRRUS 550NM: CIRRUS 550NM amount (550 NM EXTINCTION)
+  - WAT DROP: WAT DROP amount (KM GM/M3)
+  - ICE PART: ICE PART amount (KM GM/M3)
+  - MEAN AER RH: MEAN AER RH amount (PERCENT)
+  - MOL SCAT 459.45NM: MOL SCAT 459.45NM amount (459.45 NM EXTINCTION)
+  - TOT AER 459.45NM: TOT AER 459.45NM amount (459.45 NM EXTINCTION)
+  - AER 1 459.45NM: AER 1 459.45NM amount (459.45 NM EXTINCTION)
+  - AER 2 459.45NM: AER 2 459.45NM amount (459.45 NM EXTINCTION)
+  - AER 3 459.45NM: AER 3 459.45NM amount (459.45 NM EXTINCTION)
+  - AER 4 459.45NM: AER 4 459.45NM amount (459.45 NM EXTINCTION)
+  - CIRRUS 459.45NM: CIRRUS 459.45NM amount (459.45 NM EXTINCTION)
+  - H2O: H2O amount (ATM CM)
+  - O3: O3 amount (ATM CM)
+  - CO2: CO2 amount (ATM CM)
+  - CO: CO amount (ATM CM)
+  - CH4: CH4 amount (ATM CM)
+  - N2O: N2O amount (ATM CM)
+  - O2: O2 amount (ATM CM)
+  - NH3: NH3 amount (ATM CM)
+  - NO: NO amount (ATM CM)
+  - NO2: NO2 amount (ATM CM)
+  - SO2: SO2 amount (ATM CM)
+  - F11: F11 amount (ATM CM)
+  - F12: F12 amount (ATM CM)
+  - CCl3F: CCl3F amount (ATM CM)
+  - CF4: CF4 amount (ATM CM)
+  - F22: F22 amount (ATM CM)
+  - F113: F113 amount (ATM CM)
+  - F114: F114 amount (ATM CM)
+  - R115: R115 amount (ATM CM)
+  - ClONO2: ClONO2 amount (ATM CM)
+  - HNO4: HNO4 amount (ATM CM)
+  - CHCl2F: CHCl2F amount (ATM CM)
+  - CCl4: CCl4 amount (ATM CM)
+  - N2O5: N2O5 amount (ATM CM)
+  - H2-H2: H2-H2 amount (ATM^2 CM)
+  - H2-HE: H2-HE amount (ATM^2 CM)
+  - H2-CH4: H2-CH4 amount (ATM^2 CM)
+  - CH4-CH4: CH4-CH4 amount (ATM^2 CM)
+  - SCATTER_ALTITUDE: Scatter altitude (KM)
+  - SUBTENDED_ANGLE: Subtended angle (DEG)
+  - SOLAR_ZENITH: Solar zenith angle (DEG)
+  - PATH_ZENITH: Path zenith angle (DEG)
+  - RELATIVE_AZIMUTH: Relative azimuth angle (DEG)
+  - SCATTER_ANGLE: Scatter angle (DEG)
