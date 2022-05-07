@@ -3,7 +3,7 @@ The FV3 pipeline consists of several tools to perform file conversions and MODTR
 
 ## Project Files
 ### FV3_pipeline.sh
-Script for running entire FV3 pipeline on input netCDF file. This script accepts a single argument: the input netCDF file.
+Script for running the entire FV3 pipeline on an input netCDF file. This script accepts a single argument: the input netCDF file.
 ```
 ./FV3_pipeline.sh <input file>
 ```
@@ -109,3 +109,6 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 ```
+
+### graphs/
+This directory contains scripts for creating graphs from the output netCDF from the main pipeline. These scripts should be relatively self-explanatory, as the intention is that they are templates for your own creation of plots.
