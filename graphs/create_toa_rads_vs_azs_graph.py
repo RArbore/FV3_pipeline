@@ -2,7 +2,6 @@ from argparse import ArgumentParser
 import matplotlib.pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
-import os
 
 argparser = ArgumentParser(description="Create graph of toa_radiance vs azimuth angle.")
 argparser.add_argument("input", help="Input netCDF file (output from FV3 pipeline).")
