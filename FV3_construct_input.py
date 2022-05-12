@@ -284,9 +284,9 @@ for i in range(lat.shape[0]):
                                              n2o_vals_fv3,
                                              co_vals_fv3,
                                              ch4_vals_fv3,
-                                             cloud_alts,
-                                             cliqwp_vals,
-                                             cicewp_vals,
+                                             cloud_alts_fv3,
+                                             cliqwp_vals_fv3,
+                                             cicewp_vals_fv3,
                                              os.path.abspath(args.input_sap))
 
         #temp_data = { "MODTRAN" : [] }
