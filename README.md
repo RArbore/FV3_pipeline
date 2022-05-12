@@ -16,7 +16,7 @@ The following files are created:
 ```
 - <input file>.json               # conversion between input netCDF and JSON file formats
 - <input file>_modtran_input.json # restructure input JSON and add info for MODTRAN
-- $SCRATCH/output/*               # the raw output from MODTRAN; stored in your $SCRATCH directory as this output is quite large, and will likely exceed the quota for your home directory
+- $SCRATCH/output/*              # the raw output from MODTRAN; stored in your $SCRATCH directory as this output is quite large, and will likely exceed the quota for your home directory
 - <input file>_modtran_output.nc  # the final output netCDF; relevant fields are extracted from the raw MODTRAN output and placed in this netCDF
 ```
 

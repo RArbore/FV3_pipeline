@@ -13,6 +13,8 @@ args = argparser.parse_args()
 
 case_num = 0
 
+MODTRAN_MINIMUM_ZENITH = 115.8
+
 def write_modtran6_json_file(fname,
                              output_fname,
                              observer_azimuth_angles,
@@ -225,30 +227,34 @@ for i in range(lat.shape[0]):
         fv3_observer_azimuth_angles = np.zeros((VZA.shape[0] * RAA.shape[0]))
 
         for k in range(RAA.shape[0]):
-            fv3_observer_zenith_angles[k * VZA.shape[0] : (k + 1) * VZA.shape[0]] = 180 - VZA
+            fv3_observer_zenith_angles[k * VZA.shape[0] : (k + 1) * VZA.shape[0]] = 90 + VZA
             fv3_observer_azimuth_angles[k * VZA.shape[0] : (k + 1) * VZA.shape[0]] = RAA[k]
 
         cloud_alts = np.array([0.0, 0.09, 0.11, 2.49, 2.51])
         cliqwp_vals = np.array([0.0, 0.0, 0.001, 0.001, 0.0])
         cicewp_vals = np.array([0.0, 0.0, 0.0, 0.0, 0.0])
 
+        cloud_alts_fv3 = None #boundaries where ql_plev / qi_plev are non-zero, threshold for zero is 10^-8
+        cliqwp_vals_fv3 = ql_plev #times some constant
+        cicewp_vals_fv3 = qi_plev #times some constant
+
         case_json = write_modtran6_json_file(out_file_path,
                                              case_name,
-                                             observer_azimuth_angles,
-                                             observer_zenith_angles,
+                                             fv3_observer_azimuth_angles,
+                                             np.maximum(fv3_observer_zenith_angles, MODTRAN_MINIMUM_ZENITH),
                                              SZA[j],
                                              case_name,
                                              case_description,
                                              16,
-                                             alts,
-                                             press,
-                                             temps,
-                                             h2o_vals,
-                                             co2_vals,
-                                             o3_vals,
-                                             n2o_vals,
-                                             co_vals,
-                                             ch4_vals,
+                                             alts_fv3,
+                                             press_fv3,
+                                             temps_fv3,
+                                             h2o_vals_fv3,
+                                             co2_vals_fv3,
+                                             o3_vals_fv3,
+                                             n2o_vals_fv3,
+                                             co_vals_fv3,
+                                             ch4_vals_fv3,
                                              cloud_alts,
                                              cliqwp_vals,
                                              cicewp_vals,
