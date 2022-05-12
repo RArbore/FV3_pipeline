@@ -39,7 +39,7 @@ optional arguments:
 ```
 
 ### FV3_construct_input.py
-This tool is used to construct the input MODTRAN json from the JSON converted directly from the input netCDF. This tool produces the JSON input that is fed directly into MODTRAN.
+This tool is used to construct the input MODTRAN json from the JSON converted directly from the input netCDF. This tool produces the JSON input that is fed directly into MODTRAN. Note, you must provide a path for a SAP file, but that SAP file does not need to actually exist until you run the constructed JSON through MODTRAN.
 ```
 usage: python3 FV3_construct_input.py [-h] input output
 
@@ -47,6 +47,7 @@ Add structure to JSON files for MODTRAN input (specific to FV3 OSSE inputs).
 
 positional arguments:
   input       Input file path.
+  input_sap   Input SAP file path.
   output      Output file path.
 
 optional arguments:

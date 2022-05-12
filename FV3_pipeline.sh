@@ -10,14 +10,18 @@ echo "Please ignore all errors after this point pertaining to invalid arguments.
 
 DATA_DIR=/project/projectdirs/m4098/modtran/modtran/modtran6/mod6_install/MODTRAN6.0/DATA
 
+MIE_INPUT='mie_input.txt'
+MIE_OUTPUT='wc.mie.nc'
 JSON_FILE=$(echo $1 | sed 's/.nc/.json/')
 MODTRAN_FILE=$(echo $1 | sed 's/.nc/_modtran_input.json/')
+SAP_FILE=$(echo $1 | sed 's/.nc/.sap/')
 
 OUTPUT_DIR=$SCRATCH/output/
 OUTPUT_FILE=$(echo $1 | sed 's/.nc/_modtran_output.nc/')
 
 python3 json_netcdf.py $1 $JSON_FILE
-python3 FV3_construct_input.py $JSON_FILE $MODTRAN_FILE
+python3 FV3_construct_input.py $JSON_FILE $SAP_FILE $MODTRAN_FILE
+python3 generate_sap.py $MIE_OUTPUT $MODTRAN_FILE $SAP_FILE
 make mpi_modtran.x
 mkdir -p $OUTPUT_DIR
 mpirun -np 32 mpi_modtran.x $MODTRAN_FILE $OUTPUT_DIR $DATA_DIR

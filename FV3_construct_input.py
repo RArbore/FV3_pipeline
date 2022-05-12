@@ -3,9 +3,11 @@ import scipy.interpolate
 import multiprocessing
 import numpy as np
 import json
+import os
 
 argparser = ArgumentParser(description="Add structure to JSON files for MODTRAN input (specific to FV3 OSSE inputs).")
 argparser.add_argument("input", help="Input file path.")
+argparser.add_argument("input_sap", help="Input SAP file path.")
 argparser.add_argument("output", help="Output file path.")
 args = argparser.parse_args()
 
@@ -30,7 +32,8 @@ def write_modtran6_json_file(fname,
                              ch4_vals,
                              cloud_alts,
                              cliq_prof,
-                             cice_prof):
+                             cice_prof,
+                             sap_file_path):
     global case_num
     out_json = [
                   { "MODTRANINPUT" :
@@ -107,6 +110,8 @@ def write_modtran6_json_file(fname,
                             "IHAZE" : "AER_RURAL",
                             "ICLD" : "CLOUD_CUMULUS",
                             "VIS" : 5.0, # change this
+                            "ARUSS": "SAP",
+                            "SAPFILE": sap_file_path,
                             "CLDALT" : {
                                 "NCRALT" : cloud_alts.shape[0],
                                 "ZPCLD" : list(map(lambda x: round(x, 2), cloud_alts.tolist())),
@@ -246,7 +251,8 @@ for i in range(lat.shape[0]):
                                              ch4_vals,
                                              cloud_alts,
                                              cliqwp_vals,
-                                             cicewp_vals)
+                                             cicewp_vals,
+                                             os.path.abspath(args.input_sap))
 
         #temp_data = { "MODTRAN" : [] }
         #temp_data["MODTRAN"] = case_json

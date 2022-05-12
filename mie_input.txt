@@ -1,0 +1,11 @@
+mie_program MIEV0
+refrac water
+r_eff 1 25 1
+distribution gamma 7
+wavelength 300. 2500.
+wavelength_step 100.
+nmom 1040
+nmom_netcdf 1040
+nthetamax 1040
+output_user netcdf
+verbose
