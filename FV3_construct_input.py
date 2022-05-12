@@ -116,9 +116,9 @@ def write_modtran6_json_file(fname,
                             "SAPFILE": sap_file_path,
                             "CLDALT" : {
                                 "NCRALT" : cloud_alts.shape[0],
-                                "ZPCLD" : list(map(lambda x: round(x, 2), cloud_alts.tolist())),
-                                "CLD" : list(map(lambda x: round(x, 3), cliq_prof.tolist())),
-                                "CLDICE" : list(map(lambda x: round(x, 3), cice_prof.tolist())),
+                                "ZPCLD" : list(map(lambda x: round(x, 9), cloud_alts.tolist())),
+                                "CLD" : list(map(lambda x: round(x, 9), cliq_prof.tolist())),
+                                "CLDICE" : list(map(lambda x: round(x, 9), cice_prof.tolist())),
                                 "RR" : [0.0] * cloud_alts.shape[0]
                             }
                         },
@@ -251,17 +251,23 @@ for i in range(lat.shape[0]):
                 cloud_alts_fv3 += [alt - 0.01, alt]
                 cliqwp_vals_fv3 += [0.0 if liq_last == 0.0 else liq, liq]
                 cicewp_vals_fv3 += [0.0 if ice_last == 0.0 else ice, ice]
+                alt_last = alt
+                liq_last = liq
+                ice_last = ice
             elif (liq == 0.0 and liq_last > 0.0) or (ice == 0.0 and ice_last > 0.0):
                 cloud_alts_fv3 += [alt_last + 0.01, alt]
                 cliqwp_vals_fv3 += [0.0 if liq == 0.0 else liq_last, liq]
                 cicewp_vals_fv3 += [0.0 if ice == 0.0 else ice_last, ice]
-            else:
+                alt_last = alt
+                liq_last = liq
+                ice_last = ice
+            elif not liq == liq_last or not ice == ice_last:
                 cloud_alts_fv3 += [alt]
                 cliqwp_vals_fv3 += [liq]
                 cicewp_vals_fv3 += [ice]
-            alt_last = alt
-            liq_last = liq
-            ice_last = ice
+                alt_last = alt
+                liq_last = liq
+                ice_last = ice
 
         cloud_alts_fv3 = np.array(cloud_alts_fv3) * 1.0
         cliqwp_vals_fv3 = np.array(cliqwp_vals_fv3) * 1.0

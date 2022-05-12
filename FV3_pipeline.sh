@@ -11,7 +11,7 @@ echo "Please ignore all errors after this point pertaining to invalid arguments.
 DATA_DIR=/project/projectdirs/m4098/modtran/modtran/modtran6/mod6_install/MODTRAN6.0/DATA
 
 MIE_INPUT='mie_input.txt'
-MIE_OUTPUT='wc.mie.nc'
+MIE_OUTPUT='wc.gamma_007.0.mie.cdf'
 JSON_FILE=$(echo $1 | sed 's/.nc/.json/')
 MODTRAN_FILE=$(echo $1 | sed 's/.nc/_modtran_input.json/')
 SAP_FILE=$(echo $1 | sed 's/.nc/.sap/')

@@ -9,6 +9,6 @@ mpi_modtran.x: mpi_modtran.cpp
 	$(CXX) -o $@ $^
 
 clean:
-	rm -rf *.x *.json $(SCRATCH)/output/
+	rm -rf *.x *.json *.sap $(SCRATCH)/output/
 
 .PHONY: clean
