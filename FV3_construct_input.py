@@ -234,9 +234,38 @@ for i in range(lat.shape[0]):
         cliqwp_vals = np.array([0.0, 0.0, 0.001, 0.001, 0.0])
         cicewp_vals = np.array([0.0, 0.0, 0.0, 0.0, 0.0])
 
-        cloud_alts_fv3 = None #boundaries where ql_plev / qi_plev are non-zero, threshold for zero is 10^-8
-        cliqwp_vals_fv3 = ql_plev #times some constant
-        cicewp_vals_fv3 = qi_plev #times some constant
+        thresh_ql_plev = ql_plev[:, i]
+        thresh_ql_plev[thresh_ql_plev < 1E-8] = 0.0
+        thresh_qi_plev = qi_plev[:, i]
+        thresh_qi_plev[thresh_qi_plev < 1E-8] = 0.0
+
+        cloud_alts_fv3 = []
+        cliqwp_vals_fv3 = []
+        cicewp_vals_fv3 = []
+
+        alt_last = 0.0
+        liq_last = 0.0
+        ice_last = 0.0
+        for (alt, liq, ice) in zip(alts_fv3, thresh_ql_plev, thresh_qi_plev):
+            if (liq > 0.0 and liq_last == 0.0) or (ice > 0.0 and ice_last == 0.0):
+                cloud_alts_fv3 += [alt - 0.01, alt]
+                cliqwp_vals_fv3 += [0.0 if liq_last == 0.0 else liq, liq]
+                cicewp_vals_fv3 += [0.0 if ice_last == 0.0 else ice, ice]
+            elif (liq == 0.0 and liq_last > 0.0) or (ice == 0.0 and ice_last > 0.0):
+                cloud_alts_fv3 += [alt_last + 0.01, alt]
+                cliqwp_vals_fv3 += [0.0 if liq == 0.0 else liq_last, liq]
+                cicewp_vals_fv3 += [0.0 if ice == 0.0 else ice_last, ice]
+            else:
+                cloud_alts_fv3 += [alt]
+                cliqwp_vals_fv3 += [liq]
+                cicewp_vals_fv3 += [ice]
+            alt_last = alt
+            liq_last = liq
+            ice_last = ice
+
+        cloud_alts_fv3 = np.array(cloud_alts_fv3) * 1.0
+        cliqwp_vals_fv3 = np.array(cliqwp_vals_fv3) * 1.0
+        cicewp_vals_fv3 = np.array(cicewp_vals_fv3) * 1.0
 
         case_json = write_modtran6_json_file(out_file_path,
                                              case_name,
