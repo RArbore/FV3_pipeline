@@ -123,10 +123,10 @@ for case in range(CASES):
 		fluxes = fluxes.split("\n")[:-1]
 		offset = len(fluxes[3].split(" ")[1]) + 2
 		fluxes = list(map(lambda x: x[offset:], fluxes[3:]))
-		fluxes = np.stack(list(map(lambda x: np.fromstring(x, sep=" "), fluxes)))
-		upward_diffuse = np.reshape(np.stack((fluxes[:, 0], fluxes[:, 3]), axis=1), (-1))
-		downward_diffuse = np.reshape(np.stack((fluxes[:, 1], fluxes[:, 4]), axis=1), (-1))
-		direct_solar = np.reshape(np.stack((fluxes[:, 2], fluxes[:, 5]), axis=1), (-1))
+		fluxes = np.concatenate(list(map(lambda x: np.fromstring(x, sep=" "), fluxes)))
+		upward_diffuse = fluxes[0::3]
+		downward_diffuse = fluxes[1::3]
+		direct_solar = fluxes[2::3]
 		upward_diffuse = np.reshape(upward_diffuse, (toa_radiances.shape[2], -1))[::-1, :]
 		downward_diffuse = np.reshape(downward_diffuse, (toa_radiances.shape[2], -1))[::-1, :]
 		direct_solar = np.reshape(direct_solar, (toa_radiances.shape[2], -1))[::-1, :]
@@ -151,6 +151,9 @@ for case in range(CASES):
 		azinp_list.append(azinp)
 		vert_path_list.append(vert_path)
 		los_paths_list.append(los_paths)
+		if not geometries_vert_path.shape == (37, 7):
+			print(geometries_vert_path)
+			print(geometries_vert_path.shape)
 		geometries_vert_path_list.append(geometries_vert_path)
 		geometries_los_paths_list.append(geometries_los_paths)
 		day_list.append(day)
