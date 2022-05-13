@@ -151,9 +151,6 @@ for case in range(CASES):
 		azinp_list.append(azinp)
 		vert_path_list.append(vert_path)
 		los_paths_list.append(los_paths)
-		if not geometries_vert_path.shape == (37, 7):
-			print(geometries_vert_path)
-			print(geometries_vert_path.shape)
 		geometries_vert_path_list.append(geometries_vert_path)
 		geometries_los_paths_list.append(geometries_los_paths)
 		day_list.append(day)
