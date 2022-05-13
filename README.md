@@ -59,7 +59,7 @@ This tool is what actually calls MODTRAN on input cases. It uses MPI to run mult
 Due to licensing issues, *you should only run this tool on a single node*. On NERSC's Cori, it is best to run MODTRAN on the frontend.
 To run this tool on the Cori frontend, run the following:
 ```
-make
+make mpi_modtran.x
 mpirun -np <procs> mpi_modtran.x input output_dir data_dir
 # input is the input JSON file, output_dir is the output directory, and data_dir is the data directory of your MODTRAN installation
 ```
@@ -76,6 +76,37 @@ positional arguments:
   output      Output file path.
   cases       Number of cases.
   szas        Number of szas.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+### generate_sap.py
+This tool is used to generate MODTRAN's input SAP file.
+```
+usage: python3 generate_sap.py [-h] mie_netCDF input_json output
+
+Generate SAP input for MODTRAN.
+
+positional arguments:
+  mie_netCDF  netCDF output from libRadtran's mie.
+  input_json  Input JSON file for MODTRAN.
+  output      Output SAP file path.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+### netcdf2dat.py
+This tool is used to generate MODTRAN's input .dat file. It is not currently used in the pipeline.
+```
+usage: python3 netcdf2dat.py [-h] input output
+
+Convert mie netCDF to .dat file.
+
+positional arguments:
+  input       Input file path.
+  output      Output file path.
 
 optional arguments:
   -h, --help  show this help message and exit
@@ -110,6 +141,9 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 ```
+
+### mie_input.txt
+This is the input file for libRadtran's mie tool. When run through mie (```mie <mie_input.txt```), a file called "wc.gamma_007.0.mie.cdf" should be created. This is mie's output. This file is created when needed in the Makefile.
 
 ### graphs/
 This directory contains scripts for creating graphs from the output netCDF from the main pipeline. These scripts should be relatively self-explanatory, as the intention is that they are templates for your own creation of plots.

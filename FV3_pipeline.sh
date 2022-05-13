@@ -22,7 +22,7 @@ OUTPUT_FILE=$(echo $1 | sed 's/.nc/_modtran_output.nc/')
 python3 json_netcdf.py $1 $JSON_FILE
 python3 FV3_construct_input.py $JSON_FILE $SAP_FILE $MODTRAN_FILE
 python3 generate_sap.py $MIE_OUTPUT $MODTRAN_FILE $SAP_FILE
-make mpi_modtran.x
+make all
 mkdir -p $OUTPUT_DIR
 mpirun -np 32 mpi_modtran.x $MODTRAN_FILE $OUTPUT_DIR $DATA_DIR
 python3 FV3_destruct_output.py $OUTPUT_DIR $OUTPUT_FILE 90 10
