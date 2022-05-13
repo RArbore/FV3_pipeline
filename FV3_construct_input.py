@@ -269,6 +269,11 @@ for i in range(lat.shape[0]):
                 liq_last = liq
                 ice_last = ice
 
+        if len(cloud_alts_fv3) == 0 or cloud_alts_fv3[0] != 0.0:
+            cloud_alts_fv3 = [0.0] + cloud_alts_fv3
+            cliqwp_vals_fv3 = [0.0] + cliqwp_vals_fv3
+            cicewp_vals_fv3 = [0.0] + cicewp_vals_fv3
+
         cloud_alts_fv3 = np.array(cloud_alts_fv3) * 1.0
         cliqwp_vals_fv3 = np.array(cliqwp_vals_fv3) * 1.0
         cicewp_vals_fv3 = np.array(cicewp_vals_fv3) * 1.0
